@@ -30,4 +30,4 @@ jobs:
         # Option to specify a path to the configuration file, without / at the beginning
         config: 'Configurations/Crowdin-J4-All.yml'
         # Use true for dryrun to test the run without actually processing anything
-        dryrun_action: true
+        debug_mode: true
