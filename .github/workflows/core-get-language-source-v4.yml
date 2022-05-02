@@ -13,56 +13,7 @@ env:
   CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
 
 jobs:
-  build:
-    if: (github.event_name == 'schedule' && github.repository == 'joomla/core-translations') || (github.event_name != 'schedule')
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Fetch and extract core j4 cms
-        run: |
-          cd ..
-          ls -l
-          wget -nv "https://github.com/joomla/joomla-cms/archive/refs/heads/4.1-dev.zip"
-          unzip 4.1-dev.zip
-          mv joomla-cms-4.1-dev joomla-cms
-
-      - name: Syncing j4 directories
-        # We use a simple copy paste syntax here if needed customization for different directories
-        run: |
-          cd ..
-          SYNC_VERION="v4"
-
-          SYNC_PATH="administrator/language/en-GB/"
-          echo /${SYNC_PATH}
-          rsync -i -rptgo --checksum --ignore-times --delete  joomla-cms/${SYNC_PATH} core-translations/joomla_${SYNC_VERION}/source/${SYNC_PATH}
-
-          SYNC_PATH="administrator/manifests/packages/pkg_en-GB.xml"
-          echo /${SYNC_PATH}
-          rsync -i -rptgo --checksum --ignore-times --delete  joomla-cms/${SYNC_PATH} core-translations/joomla_${SYNC_VERION}/source/${SYNC_PATH}
-
-          SYNC_PATH="api/language/en-GB/"
-          echo /${SYNC_PATH}
-          rsync -i -rptgo --checksum --ignore-times --delete  joomla-cms/${SYNC_PATH} core-translations/joomla_${SYNC_VERION}/source/${SYNC_PATH}
-
-          SYNC_PATH="installation/language/en-GB/"
-          echo /${SYNC_PATH}
-          rsync -i -rptgo --checksum --ignore-times --delete  joomla-cms/${SYNC_PATH} core-translations/joomla_${SYNC_VERION}/source/${SYNC_PATH}
-
-          SYNC_PATH="language/en-GB/"
-          echo /${SYNC_PATH}
-          rsync -i -rptgo --checksum --ignore-times --delete  joomla-cms/${SYNC_PATH} core-translations/joomla_${SYNC_VERION}/source/${SYNC_PATH}
-
-      - name: Push j4 to repo
-        run: |
-          git config user.name Translation Bot
-          git config user.email release+translation-bot@joomla.org
-          git status
-          git add .
-          git diff --quiet && git diff --staged --quiet || git commit -am "J4 Source Language update on `date +'%Y-%m-%d'`"
-          git push
-
   synchronize-with-crowdin:
-    needs: build
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -81,7 +32,7 @@ jobs:
         # Option to specify a path to the configuration file, without / at the beginning
         config: 'Configurations/Crowdin-J4-All.yml'
         # Use true for dryrun to test the run without actually processing anything
-        dryrun_action: false
+        dryrun_action: true
 
     - name: crowdin action installer files
       uses: crowdin/github-action@1.4.8
