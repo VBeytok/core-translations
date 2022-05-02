@@ -1,8 +1,8 @@
 # Project Public Identifier: cms
-project_id: 18
+project_id: 513284
 api_token_env: CROWDIN_PERSONAL_TOKEN
 base_path: "."
-base_url: "https://joomla.crowdin.com"
+#base_url: "https://joomla.crowdin.com"
 
 preserve_hierarchy: true
 
