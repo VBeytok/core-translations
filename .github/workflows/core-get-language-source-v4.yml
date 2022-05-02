@@ -33,13 +33,3 @@ jobs:
         config: 'Configurations/Crowdin-J4-All.yml'
         # Use true for dryrun to test the run without actually processing anything
         dryrun_action: true
-
-    - name: crowdin action installer files
-      uses: crowdin/github-action@1.4.8
-      with:
-        # Upload sources to Crowdin
-        upload_sources: true
-        # Option to specify a path to the configuration file, without / at the beginning
-        config: 'Configurations/Crowdin-J4-Installer.yml'
-        # Use true for dryrun to test the run without actually processing anything
-        dryrun_action: false
